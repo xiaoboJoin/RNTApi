@@ -13,6 +13,9 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import API from './api/api.js';
+
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
   'Cmd+D or shake for dev menu',
@@ -23,9 +26,29 @@ const instructions = Platform.select({
 export default class App extends Component<{}> {
   _onTrains(){
     console.log('_onTrains');
+    // const url = 'https://www.baidu.com';
+    // fetch(url).then((response)=>{console.log(response)}).catch((error)=>{
+    //   console.log(error);
+    // });
+    // return;
+    var options = {
+      train_date:'2018-01-24',
+      from_station:'SHH',
+      to_station:'BJP',
+      purpose_codes:'ADULT',
+    }
+    API.getTrains(options,function (err,data) {
+      console.log(data);
+    })
+
+    // console.log('_onTrains');
+    // const url = 'https://kyfw.12306.cn/otn/leftTicket/init';
+    // fetch(url).then((response)=>{console.log(response)}).catch((error)=>{
+    //   console.log(error);
+    // });
   }
   _onLogin(){
-    
+
   }
   _onSubmit(){
 
