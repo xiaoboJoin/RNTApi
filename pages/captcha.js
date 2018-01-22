@@ -34,11 +34,18 @@ class Captcha extends React.Component {
       }
     }
   }
+  onMessage(data){
+    console.log(data);
+    this.refs.myWebView.postMessage(data.nativeEvent.data);
+
+  }
   render() {
     const webapp = require('./captcha.html');
     return (
       <WebView
+      ref="myWebView"
       source={webapp}
+      onMessage={this.onMessage.bind(this)}
       >
     </WebView>
   );
