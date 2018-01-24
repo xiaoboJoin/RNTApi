@@ -3,6 +3,7 @@ import Home from './home.page.js';
 import Order from './order.page.js';
 import User from './user.page.js';
 import Captcha from  './captcha.js';
+import Login from './login.page.js';
 
 
 
@@ -11,6 +12,7 @@ export function registerScreens() {
   Navigation.registerComponent('RN.Order', () => Order);
   Navigation.registerComponent('RN.User', () => User);
   Navigation.registerComponent('RN.Captcha', () => Captcha);
+  Navigation.registerComponent('RN.Login', () => Login);
 }
 
 export function registerScreenVisibilityListener() {

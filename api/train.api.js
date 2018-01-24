@@ -11,7 +11,7 @@
 
 import BaseModel from './model.js'
 import Config from './config.js'
-const queryString = require('query-string');
+// const queryString = require('query-string');
 // import {
 //   fetch
 // } from 'react-native';
@@ -76,7 +76,7 @@ function init() {
         that.model.passport_proxy_captcha = passport_proxy_captcha||"";
       }
     })
-    this.next();
+    that.next();
   });
 }
 function getJS() {

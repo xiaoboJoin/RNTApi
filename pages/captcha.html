@@ -38,8 +38,12 @@ div {
 }
 </style>
 <script>
-document.addEventListener("message", function(data) {
-  alert(data);
+document.addEventListener("message", function(message) {
+  var data =  JSON.parse(message.data);
+  if (data.name == 'captcha') {
+      var image = document.getElementById("image");
+      image.src = 'data:image/jpeg;base64,'+data.imageData;
+  }
 });
 function done() {
   var image = document.getElementById("image");

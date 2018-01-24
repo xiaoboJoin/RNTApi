@@ -1,14 +1,14 @@
 import React from 'react';
-import {View,WebView, Text} from 'react-native';
+import {View, Text,TouchableHighlight,TextInput} from 'react-native';
 import API from '../api/api.js';
 
-class Captcha extends React.Component {
+class Login extends React.Component {
   static navigatorButtons = {
     leftButtons: [
       {
         title: '关闭', // for a textual button, provide the button title (label)
         id: 'close', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      //  disabled: true, // optional, used to disable the button (appears faded and doesn't interact)
+        //disabled: true, // optional, used to disable the button (appears faded and doesn't interact)
         disableIconTint: true, // optional, by default the image colors are overridden and tinted to navBarButtonColor, set to true to keep the original image colors
         showAsAction: 'ifRoom', // optional, Android only. Control how the button is displayed in the Toolbar. Accepted valued: 'ifRoom' (default) - Show this item as a button in an Action Bar if the system decides there is room for it. 'always' - Always show this item as a button in an Action Bar. 'withText' - When this item is in the action bar, always show it with a text label even if it also has an icon specified. 'never' - Never show this item as a button in an Action Bar.
         buttonColor: 'blue', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
@@ -16,21 +16,6 @@ class Captcha extends React.Component {
         buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
       }
     ]
-  }
-  constructor(props) {
-    super(props);
-    // if you want to listen on navigator events, set this up
-    var that = this;
-   this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-    API.getCaptcha({},function (err,imageData) {
-      if (imageData) {
-        that.refs.myWebView.postMessage(JSON.stringify({
-          name:"captcha",
-          imageData:imageData
-        }));
-      }
-    })
-
   }
   onNavigatorEvent(event) {
     // this is the onPress handler for the two buttons together
@@ -40,27 +25,48 @@ class Captcha extends React.Component {
         // this is the same id field from the static navigatorButtons definition
         this.props.navigator.dismissModal();
       }
-      if (event.id == 'add') {
-        AlertIOS.alert('NavBar', 'Add button pressed');
-      }
+
     }
   }
-  onMessage(data){
-    console.log(data);
-    this.refs.myWebView.postMessage(data.nativeEvent.data);
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password:''
+    };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+  _onLogin(){
+    this.props.navigator.showModal({
+      screen: 'RN.Captcha',
+      title: '验证码'
+    });
+  //  AlertIOS.alert('提示', this.state.username+this.state.password);
   }
   render() {
-    const webapp = require('./captcha.html');
     return (
-      <WebView
-      ref="myWebView"
-      source={webapp}
-      onMessage={this.onMessage.bind(this)}
-      >
-    </WebView>
-  );
-}
+      <View>
+        <TextInput
+         style={{height: 40}}
+         placeholder="用户名"
+         onChangeText={(text) => this.setState({username:text})}
+       />
+       <TextInput
+           style={{height: 40}}
+           placeholder="密码"
+           onChangeText={(text) => this.setState({password:text})}
+         />
+
+       <TouchableHighlight onPress={this._onLogin.bind(this)}>
+         <Text>
+           登录
+         </Text>
+       </TouchableHighlight>
+      </View>
+    );
+  }
 }
 
-export default Captcha;
+export default Login;

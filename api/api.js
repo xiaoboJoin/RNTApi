@@ -40,17 +40,16 @@
 // .catch(e => console.log(e));
 
 import TrainModel from './train.api.js';
+import {GetCaptcha,VerifyRandCode} from './captcha.api.js';
 
-var API = {
-  getTrains(options, callback) {
-    return (new TrainModel(options,callback)).start();
-  }
+var API = {};
+API.getTrains = function(options, callback) {
+  return (new TrainModel(options,callback)).start();
 }
 
-
-
-
-
+API.getCaptcha = function(options,callback){
+  return GetCaptcha(options,callback);
+}
 
 
 export default API;
